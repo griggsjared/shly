@@ -1,3 +1,4 @@
+#include <limits.h> //PATH_MAX
 #include <stdio.h>  //printf, fgetsa, perror
 #include <stdlib.h> //EXIT_SUCCESS, EXIT_FAILURE
 #include <string.h> //strcmp, strlen, strcspn, strcpy
@@ -7,9 +8,18 @@
 
 int main() {
   char input[MAX_INPUT_SIZE];
+  char cwd[PATH_MAX]; // 1024
 
   while (1) {
-    printf("shly: ");
+
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+      perror("getcwd");
+      return EXIT_FAILURE;
+    }
+
+    //showing our super basic prompt with the cwd
+    printf("%s $", cwd);
+
     if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL) {
       break;
     }
