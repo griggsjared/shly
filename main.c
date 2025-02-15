@@ -67,6 +67,11 @@ int main() {
       return EXIT_FAILURE;
     }
 
+    if (args[0] == NULL) {
+      free(args);
+      continue;
+    }
+
     // handle typing exit or quit
     if (strcmp(args[0], "exit") == 0 || strcmp(args[0], "quit") == 0) {
       break;
@@ -98,8 +103,8 @@ int main() {
       } else if (pid > 0) {
         wait(NULL);
       }
-    } 
-    
+    }
+
     free(args);
   }
 
