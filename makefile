@@ -10,7 +10,7 @@ run: main.c
 	./$(TMPEXE)
 	rm -f $(TMPEXE)
 
-clean-temp:
+clean:
 	rm -f shly $(TMPEXE)
 
 .PHONY: run clean-temp
