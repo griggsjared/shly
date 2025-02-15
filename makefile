@@ -1,12 +1,14 @@
 CC=gcc
 CFLAGS=-Wall -Wextra
+SOURCES=$(wildcard src/*.c)
+OBJECTS=$(SOURCES:.c=.o)
 TMPEXE=shly.tmp
 
-build: main.c
-	$(CC) $(CFLAGS) -o shly main.c
+build: $(OBJECTS)
+	$(CC) $(CFLAGS) -o shly $(OBJECTS)
 
-run: main.c
-	$(CC) $(CFLAGS) -o $(TMPEXE) main.c
+run: $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TMPEXE) $(OBJECTS)
 	./$(TMPEXE)
 	rm -f $(TMPEXE)
 

@@ -1,42 +1,13 @@
-#include <stdio.h>  //printf, fgetsa, perror
+#include <stdio.h>  //printf, perror
 #include <stdlib.h> //EXIT_SUCCESS, EXIT_FAILURE
-#include <string.h> //strcmp, strlen, strcspn, strcpy
-#include <unistd.h> //fork, execlp, pid_t, wait
+#include <string.h> //strcmp, strcspn, strcpy
+#include <unistd.h> //fork, execlp, pid_t, wait, chdir, getcwd, getenv
+
+#include "input.h" //parse_input
 
 #define MAX_INPUT_SIZE 1024
 #define MAX_PATH_SIZE 1024
 #define TOKEN_BUFFER_SIZE 64
-
-// parse_input takes a string input and a buffer size and returns an array of
-// strings (tokens)
-char **parse_input(char *input, int init_buffer_size) {
-  int buffer_size = init_buffer_size;
-  char **tokens = malloc(buffer_size * sizeof(char *));
-  if (tokens == NULL) {
-    fprintf(stderr,
-            "Memory allocation failed when parsing input into tokens\n");
-    return NULL;
-  }
-
-  char *token = strtok(input, " ");
-
-  int i = 0;
-  while (token != NULL) {
-    tokens[i] = token;
-    token = strtok(NULL, " ");
-    i++;
-
-    // if the next iteration is out of bounds, we can extend the buffer with the
-    // initial buffer size
-    if (i >= buffer_size) {
-      buffer_size += init_buffer_size;
-      tokens = realloc(tokens, buffer_size * sizeof(char *));
-    }
-  }
-  tokens[i] = NULL;
-
-  return tokens;
-}
 
 int main() {
   char input[MAX_INPUT_SIZE];
