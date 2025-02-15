@@ -1,4 +1,3 @@
-#include <limits.h> //PATH_MAX
 #include <stdio.h>  //printf, fgetsa, perror
 #include <stdlib.h> //EXIT_SUCCESS, EXIT_FAILURE
 #include <string.h> //strcmp, strlen, strcspn, strcpy
@@ -10,7 +9,8 @@
 
 // parse_input takes a string input and a buffer size and returns an array of
 // strings (tokens)
-char **parse_input(char *input, int buffer_size) {
+char **parse_input(char *input, int init_buffer_size) {
+  int buffer_size = init_buffer_size;
   char **tokens = malloc(buffer_size * sizeof(char *));
   if (tokens == NULL) {
     fprintf(stderr,
@@ -22,15 +22,16 @@ char **parse_input(char *input, int buffer_size) {
 
   int i = 0;
   while (token != NULL) {
-    // TODO: increase buffer size if needed instead of returning NULL1
-    if (i >= buffer_size) {
-      fprintf(stderr, "Buffer size exceeded\n");
-      return NULL;
-    }
-
     tokens[i] = token;
     token = strtok(NULL, " ");
     i++;
+
+    // if the next iteration is out of bounds, we can extend the buffer with the
+    // initial buffer size
+    if (i >= buffer_size) {
+      buffer_size += init_buffer_size;
+      tokens = realloc(tokens, buffer_size * sizeof(char *));
+    }
   }
   tokens[i] = NULL;
 
