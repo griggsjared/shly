@@ -12,14 +12,16 @@ int main() {
 
   while (1) {
 
+    // setting up the initial cwd
     if (getcwd(cwd, sizeof(cwd)) == NULL) {
       perror("getcwd");
       return EXIT_FAILURE;
     }
 
-    //showing our super basic prompt with the cwd
-    printf("%s $", cwd);
+    // showing our super basic prompt with the cwd
+    printf("%s $ ", cwd);
 
+    // get the input
     if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL) {
       break;
     }
@@ -30,6 +32,19 @@ int main() {
     // handle typing exit or quit
     if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
       break;
+    }
+
+    // handle cd command
+    if (strcmp(input, "cd") == 0) {
+      if (chdir(getenv("HOME")) == -1) {
+        perror("chdir");
+      }
+      continue;
+    } else if (strncmp(input, "cd ", 3) == 0) {
+      if (chdir(input + 3) == -1) {
+        perror("chdir");
+      }
+      continue;
     }
 
     // handle basic commands that can be handled through fork/exec
@@ -45,6 +60,8 @@ int main() {
       }
     }
   }
+
+  printf("Shly says goodbye!\n");
 
   return EXIT_SUCCESS;
 }
