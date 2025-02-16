@@ -1,2 +1,6 @@
-shly
-shly.tmp
+#any build files
+build/shly
+tmp/shly
+
+#all object files
+*.o

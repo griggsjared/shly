@@ -3,7 +3,7 @@
 #include <string.h> //strcmp, strcspn, strcpy
 #include <unistd.h> //fork, execlp, pid_t, wait, chdir, getcwd, getenv
 
-#include "input.h" //parse_input
+#include "../src/input.h"
 
 #define MAX_INPUT_SIZE 1024
 #define MAX_PATH_SIZE 1024
