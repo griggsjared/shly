@@ -1,22 +1,27 @@
 CC=gcc
-CFLAGS=-Wall -Wextra
-SOURCES=$(wildcard src/*.c)
-OBJECTS=$(SOURCES:.c=.o)
+CFLAGS=-Wall -Wextra -I./src
 BUILDDIR=build
 BUILDEXE=$(BUILDDIR)/shly
 TMPDIR=tmp
 TMPEXE=$(TMPDIR)/shly
+SRCS=$(wildcard src/*.c)
 
-build: $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(BUILDEXE) cmd/shly.c $(OBJECTS)
-	rm -f $(TMPDIR)/* $(OBJECTS)
+build: $(BUILDDIR)-dir
+	$(CC) $(CFLAGS) -o $(BUILDEXE) cmd/shly.c $(SRCS)
+	rm -f $(TMPDIR)/*
 
-run: $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(TMPEXE) cmd/shly.c $(OBJECTS)
+run: $(TMPDIR)-dir
+	$(CC) $(CFLAGS) -o $(TMPEXE) cmd/shly.c $(SRCS)
 	./$(TMPEXE)
-	rm -f $(TMPDIR)/* $(OBJECTS)
+	rm -f $(TMPDIR)/*
+
+$(BUILDDIR)-dir:
+	mkdir -p $(BUILDDIR)
+
+$(TMPDIR)-dir:
+	mkdir -p $(TMPDIR)
 
 clean:
-	rm -f $(TMPDIR)/* $(OBJECTS)
+	rm -f $(TMPDIR)/*
 
 .PHONY: build run clean
