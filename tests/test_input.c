@@ -30,6 +30,14 @@ void test_parse_input() {
   assert(strcmp(result3[2], "cool") == 0);
   free(result3);
 
+  //test if its can increase the buffer size
+  char input4[] = "ls -l /home";
+  char **result4 = parse_input(input4, 1);
+  assert(result4 != NULL);
+  assert(strcmp(result4[0], "ls") == 0);
+  assert(strcmp(result4[1], "-l") == 0);
+  assert(strcmp(result4[2], "/home") == 0);
+
   printf("All parse_input tests passed!\n");
 }
 
