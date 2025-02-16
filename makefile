@@ -5,6 +5,7 @@ BUILDEXE=$(BUILDDIR)/shly
 TMPDIR=tmp
 TMPEXE=$(TMPDIR)/shly
 SRCS=$(wildcard src/*.c)
+TESTSRCS=tests/test_input.c
 
 build: $(BUILDDIR)-dir
 	$(CC) $(CFLAGS) -o $(BUILDEXE) cmd/shly.c $(SRCS)
@@ -14,6 +15,12 @@ run: $(TMPDIR)-dir
 	$(CC) $(CFLAGS) -o $(TMPEXE) cmd/shly.c $(SRCS)
 	./$(TMPEXE)
 	rm -f $(TMPDIR)/*
+
+test: $(TMPDIR)-dir
+	@for test in $(TESTSRCS); do \
+		$(CC) $(CFLAGS) -o $(TMPEXE) $$test $(SRCS); \
+		./$(TMPEXE); \
+	done
 
 $(BUILDDIR)-dir:
 	mkdir -p $(BUILDDIR)
