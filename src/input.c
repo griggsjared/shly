@@ -1,4 +1,4 @@
-#include <stdio.h> //printf, fgetsa, perror
+#include <stdio.h>  //printf, fgetsa, perror
 #include <stdlib.h> //malloc, realloc
 #include <string.h> //strtok
 
@@ -32,4 +32,3 @@ char **parse_input(char *input, int init_buffer_size) {
 
   return tokens;
 }
-

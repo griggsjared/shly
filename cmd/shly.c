@@ -1,9 +1,10 @@
 #include <stdio.h>  //printf, perror
-#include <stdlib.h> //EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h> //EXIT_SUCCESS, EXIT_FAILURE, exit
 #include <string.h> //strcmp, strcspn, strcpy
 #include <unistd.h> //fork, execlp, pid_t, wait, chdir, getcwd, getenv
 
-#include "../src/input.h"
+#include "../src/builtins.h" //handle_builtins
+#include "../src/input.h" //parse_input
 
 #define MAX_INPUT_SIZE 1024
 #define MAX_PATH_SIZE 1024
@@ -39,48 +40,28 @@ int main() {
       return EXIT_FAILURE;
     }
 
-    if (args[0] == NULL) {
-      free(args);
-      continue;
-    }
-
-    // handle typing exit or quit
-    if (strcmp(args[0], "exit") == 0 || strcmp(args[0], "quit") == 0) {
-      break;
-    }
-
-    // handle cd command
-    if (strcmp(args[0], "cd") == 0) {
-      // no arguments provided, we just go home
-      if (args[1] == NULL) {
-        if (chdir(getenv("HOME")) == -1) {
-          perror("chdir");
-        }
-      } else {
-        if (chdir(args[1]) == -1) {
-          perror("chdir");
-        }
-      }
-      continue;
-    }
-
-    // handle basic commands that can be handled through fork/exec
     if (args[0] != NULL) {
-      pid_t pid = fork();
-      if (pid == 0) {
-        // child process
-        execvp(args[0], args);
-        perror("exec");
-        return EXIT_FAILURE;
-      } else if (pid > 0) {
-        wait(NULL);
+      int result = handle_builtins(args);
+      if (result == -1) {
+        break;
+      }
+
+      if (result == 0) {
+        pid_t pid = fork();
+        if (pid == 0) {
+          // child process
+          execvp(args[0], args);
+          perror("exec");
+          return EXIT_FAILURE;
+        } else if (pid > 0) {
+          wait(NULL);
+        }
       }
     }
 
     free(args);
   }
 
-  printf("shly says goodbye!\n");
-
+  printf("shly: goodbye!\n");
   return EXIT_SUCCESS;
 }
