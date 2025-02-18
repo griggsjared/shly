@@ -1,9 +1,9 @@
-//builtin_command_t is a struct that holds the command and the handler function
+// builtin_command_t is a struct that holds the command and the handler function
 typedef struct {
-  //command is the base command to match
-  const char *command;
-  //handler is the function to call if the command matches
-  int (*handler)(char **args);
+    // command is the base command to match
+    const char *command;
+    // handler is the function to call if the command matches
+    int (*handler)(char **args);
 } builtin_command_t;
 
 // handle_builtins should process any builtings and return a status code

@@ -22,6 +22,9 @@ test: $(TMPDIR)-dir
 		./$(TMPEXE); \
 	done
 
+format:
+	clang-format -i src/*.c src/*.h cmd/*.c tests/*.c
+
 $(BUILDDIR)-dir:
 	mkdir -p $(BUILDDIR)
 
