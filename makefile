@@ -5,7 +5,7 @@ BUILDEXE=$(BUILDDIR)/shly
 TMPDIR=tmp
 TMPEXE=$(TMPDIR)/shly
 SRCS=$(wildcard src/*.c)
-TESTSRCS=tests/test_input.c
+TESTSRCS=tests/test_input.c tests/test_builtins.c
 
 build: $(BUILDDIR)-dir
 	$(CC) $(CFLAGS) -o $(BUILDEXE) cmd/shly.c $(SRCS)
@@ -30,5 +30,5 @@ $(TMPDIR)-dir:
 
 clean:
 	rm -f $(TMPDIR)/*
-
+ 
 .PHONY: build run clean
