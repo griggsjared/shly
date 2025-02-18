@@ -12,8 +12,11 @@ typedef struct {
 // 0 if the built in was not handled
 int handle_builtins(char **args);
 
-// handle_cd handles the cs command
+// handle_cd handles the cd command
 int handle_cd(char **args);
+
+// handle_pwd handles the pwd command
+int handle_pwd(char **args);
 
 // handle_exit handles the exit and quit commands
 int handle_exit(char **args);

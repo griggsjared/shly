@@ -5,6 +5,8 @@
 
 #include "builtins.h" //builtin_command_t
 
+#define MAX_PATH 1024
+
 int handle_cd(char **args) {
   if (strcmp(args[0], "cd") != 0) {
     return 0;
@@ -18,6 +20,20 @@ int handle_cd(char **args) {
     perror("cd");
   }
 
+  return 1;
+}
+
+int handle_pwd(char **args) {
+  if (strcmp(args[0], "pwd") != 0) {
+    return 0;
+  }
+
+  char cwd[MAX_PATH];
+  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    printf("%s\n", cwd);
+  } else {
+    perror("getcwd");
+  }
   return 1;
 }
 
@@ -36,6 +52,7 @@ int handle_builtins(char **args) {
 
   builtin_command_t builtins[] = {
     {"cd", handle_cd},
+    {"pwd", handle_pwd},
     {"exit", handle_exit},
     {"quit", handle_exit},
     {NULL, NULL}
