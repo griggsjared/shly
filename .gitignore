@@ -4,3 +4,6 @@ tmp/shly
 
 #all object files
 *.o
+
+#notes 
+notes/*
