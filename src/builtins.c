@@ -3,6 +3,8 @@
 #include <string.h> //strcmp
 #include <unistd.h> //chdir
 
+#include "builtins.h" //builtin_command_t
+
 int handle_cd(char **args) {
   if (strcmp(args[0], "cd") == 0) {
     // no arguments provided, we just go home
@@ -26,11 +28,27 @@ int handle_exit(char **args) {
 }
 
 int handle_builtins(char **args) {
-  int result = 0;
-  if (handle_cd(args) == 1) {
-    result = 1;
-  } else if (handle_exit(args) == -1) {
-    result = -1;
+  if (args[0] == NULL) {
+      return 0;
   }
-  return result;
+  
+  builtin_command_t builtins[] = {
+      {"cd", handle_cd},
+      {"exit", handle_exit},
+      {"quit", handle_exit},
+      {NULL, NULL} 
+  };
+  
+  for(builtin_command_t *builtin = builtins; builtin->command != NULL; builtin++) {
+    if(strcmp(args[0], builtin->command) != 0) {
+      continue;
+    }
+
+    int result = builtin->handler(args);
+    if (result != 0) {
+      return result;
+    }
+  }
+
+  return 0;
 }
