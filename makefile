@@ -34,4 +34,4 @@ $(TMPDIR)-dir:
 clean:
 	rm -f $(TMPDIR)/*
  
-.PHONY: build run clean
+.PHONY: build run clean format test
