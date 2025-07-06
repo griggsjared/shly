@@ -14,12 +14,13 @@ char **parse_input(char *input, int init_buffer_size) {
         return NULL;
     }
 
-    char *token = strtok(input, " ");
+    char *saveptr = NULL;
+    char *token = strtok_r(input, " ", &saveptr);
 
     int i = 0;
     while (token != NULL) {
         tokens[i] = token;
-        token = strtok(NULL, " ");
+        token = strtok_r(NULL, " ", &saveptr);
         i++;
 
         // if the next iteration is out of bounds, we can extend the buffer
